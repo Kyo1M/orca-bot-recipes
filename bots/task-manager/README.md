@@ -4,7 +4,7 @@
 
 ## 前提
 
-- **各リポジトリのタスク台帳**: [project-context-template](https://github.com/Kyo1M/project-context-template) の `tasks/index.md` と同じ形の台帳(「進行中」「完了」の 2 節と、決まった列)が、対象のリポジトリそれぞれにあること。テンプレートから作ったリポジトリなら、そのまま使えます。
+- **各リポジトリのタスク台帳**: [project-context-template](https://github.com/Kyo1M/project-context-template) の `tasks/index.md` と同じ形の台帳(「進行中」「完了」の 2 節と、決まった列)が、対象のリポジトリそれぞれにあること。テンプレートから作ったリポジトリなら、そのまま使えます。Issue で管理する案件のために `登録先` のような列を足した台帳は、task-ledger skill の読み取りの `EXPECT` もあわせて直します。
 - **ハブのリポジトリ**: 台帳を横断して読むための小さなリポジトリを 1 つ作ります。[hub-example/](hub-example/) をそのまま写して `~/Developer/<your-hub-repo>` に置き、次を書き換えます。
   - `projects.yaml`: `owner` を台帳の「担当」の列に書く自分の名前に、`projects` を自分のリポジトリにする(書き方はファイルのコメント)。
   - `priorities.md`: 例の行を消す(優先度は bot との相談で足していきます)。
@@ -45,18 +45,18 @@
 
 | 日時 | 予定 | 仕上げるもの | 関連タスク |
 |---|---|---|---|
-| 毎週金曜 9:30 | チームの定例 | 定例の資料 | research:#12 |
+| 毎週火曜 10:00 | チームの定例 | 定例の資料 | research:#12 |
 | 2026-12-05 14:00 | 顧客との打ち合わせ | 提案の資料 | webshop:T-12 |
 ```
 
 ## Orca での作り方
 
-1. **bot を作る**: Orca で新しい bot を作り、名前を「タスク管理」にします。bot のフォルダは `~/.orca/bots/` の下にでき、`orca bot list` で場所を確かめられます。
+1. **bot を作る**: Orca で新しい bot を作り、名前を「タスク管理」にします。bot のフォルダは `~/.orca/bots/` の下にできます。フォルダの名前は bot の名前と同じとは限らないので、`grep -l '"name": "タスク管理"' ~/.orca/bots/*/bot.json` で探します。
 2. **SOUL.md を貼る**: [SOUL.md](SOUL.md) の `~/Developer/<your-hub-repo>` を自分のハブのリポジトリに直し、bot のフォルダの `SOUL.md` を置き換えます。bot のチャットに貼って「SOUL.md をこの内容にして」と頼んでもかまいません。
 3. **方針と予定のファイルを置く**: 上の型で `report-policy.md` と `fixed-events.md` を bot のフォルダに作ります。
-4. **定期実行を足す**: [automations.md](automations.md) の 4 種類を足します。まず毎朝のタスク確認を作り、`orca automations run` で 1 回動かして結果を確かめてから、残りを足すと調整が楽です。
+4. **定期実行を足す**: [automations.md](automations.md) の 4 種類を足します。まず毎朝のタスク確認を作り、`orca automations list` で id を調べて `orca automations run <id>` で 1 回動かし、結果を確かめてから残りを足すと調整が楽です。
 
 ## この bot がしないこと
 
 - 一覧を作るときに台帳を書き換えること。直すのは、更新案にオーナーが答えたあとか、チャットで頼まれたときだけです。
-- `write: handoff` のプロジェクトの台帳をハブから直すこと。そのリポジトリのセッションに貼る引き継ぎ文を出します。
+- `write: handoff` のプロジェクトの台帳を、ハブの task-ledger skill から直接書き換えること。そのリポジトリのセッションに貼る引き継ぎ文を出し、直すときはそのリポジトリの決まりどおり PR にします。

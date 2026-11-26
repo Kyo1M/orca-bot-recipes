@@ -6,7 +6,7 @@
 
 ## 前提
 
-- **meeting-minutes skill**: [Kyo1M/skills](https://github.com/Kyo1M/skills) を手元に clone し、`meeting-minutes/` を Claude Code の `~/.claude/skills/meeting-minutes` に置きます(リポジトリの README の symlink の手順を使えます)。
+- **meeting-minutes skill**: [Kyo1M/skills](https://github.com/Kyo1M/skills) を手元に clone し、`meeting-minutes/` だけを Claude Code の skill の置き場に symlink します(例 `ln -s ~/Developer/Skills/meeting-minutes ~/.claude/skills/meeting-minutes`)。
 - **各プロジェクトのリポジトリ**: 議事録の置き場・命名・型を CLAUDE.md / AGENTS.md か運用ガイドに書いてあること。meeting-minutes はそこから決まりを読みます。[project-context-template](https://github.com/Kyo1M/project-context-template) から作ったリポジトリなら、議事録の置き場とタスク台帳の決まりが最初から入っています。
 - **文字起こしの置き場**: 定期チェックは `~/Downloads` の `.txt` と Teams の会議名の `.docx` を見ます。別の置き場や形式なら、SOUL.md と定期実行のプロンプトを書き換えます。
 - **対応表 `projects.md`**: bot のフォルダに、プロジェクトとリポジトリの対応表を置きます(自分用。リポジトリには入れません)。
@@ -22,7 +22,7 @@
 
 ## Orca での作り方
 
-1. **bot を作る**: Orca で新しい bot を作り、名前を「議事録作成」にします。bot のフォルダは `~/.orca/bots/` の下にでき、`orca bot list` で場所を確かめられます。
+1. **bot を作る**: Orca で新しい bot を作り、名前を「議事録作成」にします。bot のフォルダは `~/.orca/bots/` の下にできます。フォルダの名前は bot の名前と同じとは限らないので、`grep -l '"name": "議事録作成"' ~/.orca/bots/*/bot.json` で探します。
 2. **SOUL.md を貼る**: [SOUL.md](SOUL.md) で bot のフォルダの `SOUL.md` を置き換えます。bot のチャットに貼って「SOUL.md をこの内容にして」と頼んでもかまいません。続けて、上の型で `projects.md` を bot のフォルダに作ります。
 3. **定期実行を足す**: [automations.md](automations.md) の「週1回の未処理の文字起こしチェック」を足します。
 

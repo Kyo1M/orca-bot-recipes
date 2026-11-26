@@ -1,11 +1,12 @@
 ---
 name: task-ledger
-description: ハブのリポジトリの projects.yaml に登録した各リポジトリのタスク台帳(tasks/index.md)を読み、自分の担当のタスクを優先度と期限の順に 1 つの表にして会話に出す。優先度(高・中・低)の相談と priorities.md の書き換え・片付け、期限切れのタスクの棚卸し(write: ledger のプロジェクトは台帳を直し、write: handoff のプロジェクトは引き継ぎ文を出す)も行う。ハブのリポジトリで「今週やることは？」「タスク一覧を出して」「優先度を見直したい」「webshop:T-12 を高にして」「片付けて」「期限切れを整理したい」「棚卸しして」「webshop:T-3 を完了にして」「/task-ledger」などのリクエスト時に使う。
+description: >-
+  ハブのリポジトリの projects.yaml に登録した各リポジトリのタスク台帳(tasks/index.md)を読み、自分の担当のタスクを優先度と期限の順に 1 つの表にして会話に出す。優先度(高・中・低)の相談と priorities.md の書き換え・片付け、期限切れのタスクの棚卸し(write: ledger のプロジェクトは台帳を直し、write: handoff のプロジェクトは引き継ぎ文を出す)も行う。ハブのリポジトリで「今週やることは？」「タスク一覧を出して」「優先度を見直したい」「webshop:T-12 を高にして」「片付けて」「期限切れを整理したい」「棚卸しして」「webshop:T-3 を完了にして」「/task-ledger」などのリクエスト時に使う。
 ---
 
 # task-ledger
 
-状態の正本は各リポジトリの台帳で、ハブのリポジトリは `projects.yaml`(登録簿)と `priorities.md`(優先度)だけを持つ。一覧は毎回台帳から組み立てて会話に出し、ファイルには残さない。各リポジトリの台帳を書き換えるのは、4 の棚卸しで `write: ledger` のプロジェクトに書くときだけ(タスクの追加とタスク名の変更はしない。見送りの「(見送り)」だけは付ける)。
+状態の正本は各リポジトリの台帳で、ハブのリポジトリは `projects.yaml`(登録簿)と `priorities.md`(優先度)だけを持つ。一覧は毎回台帳から組み立てて会話に出し、ファイルには残さない。各リポジトリの台帳を書き換えるのは、4 の棚卸しで `write: ledger` のプロジェクトに書くときだけ(タスクの追加とタスク名の変更はしない。見送りの「（見送り）」だけは付ける)。
 
 台帳は [project-context-template](https://github.com/Kyo1M/project-context-template) の `tasks/index.md` と同じ形を前提にする。「進行中」と「完了」の 2 つの節があり、列は次のとおり。
 
@@ -61,7 +62,7 @@ git -C <repo> show origin/main:<ledger> > "${TMPDIR:-/tmp}/task-ledger-<key>.md"
 ```bash
 python3 - 山田 \
   webshop ~/Developer/webshop-renewal/tasks/index.md ~/Developer/webshop-renewal/tasks \
-  research "${TMPDIR:-/tmp}/task-ledger-research.md" https://github.com/<owner>/research-team/blob/main/tasks <<'EOF'
+  research "${TMPDIR:-/tmp}/task-ledger-research.md" https://github.com/<github-owner>/research-team/blob/main/tasks <<'EOF'
 import datetime, os, posixpath, re, sys
 EXPECT = ['ID', 'タスク', '担当', '期限', '親', '出典', '詳細', '状態']
 LINK = re.compile(r'\]\(([^)\s]+)\)')
@@ -112,7 +113,7 @@ for key, path, base in zip(args[0::3], args[1::3], args[2::3]):
     if bad:
         print('SKIP', key, '列の数が異なる行がある: ' + bad, sep='\t'); continue
     for c in rows:
-        print('ROW', key, c[0], resolve(c[1], base), c[2], c[3], c[4], c[5], c[7], resolve(c[6], base), sep='\t')
+        print('ROW', key, c[0], resolve(c[1], base), c[2], c[3], c[4], resolve(c[5], base), c[7], resolve(c[6], base), sep='\t')
     print('UNDECIDED', key, undecided, sep='\t')
     for c in open_rows:
         print('OPEN', key, c[0], c[1], c[2], c[4], sep='\t')
@@ -246,7 +247,7 @@ EOF
 2. 決まりどおりにブランチを切る(決まりが main への直接のコミットなら切らない)。
 3. 台帳を直す。行は ID で探し、その 1 行だけを書き換える。
    - 完了: 進行中の節から行を消し、完了の節の表の先頭(区切り行の直後)に足す(複数の行を移すときは完了日の新しいものを上にする)。完了の節の列は `| ID | タスク | 担当 | 完了日 | 親 | 出典 | 詳細 |` で、元の行から期限と状態の列を除き、4 列目に完了日を入れる。ほかの列は元の行のまま写す。
-   - 見送り: 完了と同じく完了の節へ移し、タスク名の末尾に「(見送り)」を付け、4 列目に見送りにした日を入れる。
+   - 見送り: 完了と同じく完了の節へ移し、タスク名の末尾に「（見送り）」を付け、4 列目に見送りにした日を入れる。
    - 期限を引き直す: 期限の列だけを `YYYY-MM-DD` で書き直す。
    - タスクファイルの `status` と詳細の列は、4-1 で直すと答えたものだけ直す。
 4. コミットの前に確かめる。どれかに当たれば、コミットせずに知らせる。
@@ -285,7 +286,8 @@ EOF
 1. AGENTS.md の決まりのとおり main を最新にして作業用のブランチを切る。
 2. Issue と台帳を併用しているなら、Issue の今の値を確かめ、台帳の担当・期限・状態を写す(閉じた Issue の行は完了の節へ移す)。
 3. Issue にしていない行は、決まったことのとおりに台帳を直す。
-4. 差分を見せてコミットし、PR を出す(マージは人が行う)。ハブの一覧には、マージされてから反映される。
+4. 完了・見送りにした行の詳細がタスクファイルを指していれば、そのファイルの `status` を運用ガイドの決まりどおり直すかを確かめる。
+5. 差分を見せてコミットし、PR を出す(マージは人が行う)。ハブの一覧には、マージされてから反映される。
 ```
 
 ### 4-4. priorities.md を直す

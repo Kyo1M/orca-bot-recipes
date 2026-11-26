@@ -9,11 +9,11 @@
   - [Kyo1M/claude-mods](https://github.com/Kyo1M/claude-mods): Claude Code の mod(hooks プラグイン)の正本。リポジトリ全体がプラグインのマーケットプレイスです。
 - **bot の写しのリポジトリ(任意)**: 別の Mac で同じ bot を使いたいときに、bot のフォルダの中身を写す非公開のリポジトリです。MEMORY.md や memory/ も写すので、必ず非公開にします。手元の bot を書き出す手順(スクリプトなど)は、そのリポジトリに用意します。使わないなら、SOUL.md と定期実行のプロンプトから写しの記述を消します。
 - **グローバルの CLAUDE.md**: どのプロジェクトでも効く指示を集める先です。
-- **Orca の item と worker**: 提案は item の選択式の質問で届き、採用した提案は bot が worker に渡して PR を作らせます。
+- **Orca の item と worker**: 提案は item の選択式の質問で届き、採用した提案は bot が worker に渡して PR を作らせます。worker が作業できるよう、skill と mod の正本(と bot の写し)のリポジトリを `orca repo add <パス>` で Orca に登録しておきます。
 
 ## Orca での作り方
 
-1. **bot を作る**: Orca で新しい bot を作り、名前を「skills・mods・bot整理」にします。bot のフォルダは `~/.orca/bots/` の下にでき、`orca bot list` で場所を確かめられます。
+1. **bot を作る**: Orca で新しい bot を作り、名前を「skills・mods・bot整理」にします。bot のフォルダは `~/.orca/bots/` の下にできます。フォルダの名前は bot の名前と同じとは限らないので、`grep -l '"name": "skills・mods・bot整理"' ~/.orca/bots/*/bot.json` で探します。
 2. **SOUL.md を貼る**: [SOUL.md](SOUL.md) の「集める先」の表を自分の置き場に書き換え、bot のフォルダの `SOUL.md` を置き換えます。bot のチャットに貼って「SOUL.md をこの内容にして」と頼んでもかまいません。
 3. **定期実行を足す**: [automations.md](automations.md) の「skill・メモリー・mod・bot 週次点検」を、置き場を書き換えてから足します。
 

@@ -7,11 +7,11 @@
 - 点検は 1 台の Mac だけで動かす。複数の Mac で同じ bot を使っていても、定期実行は 1 台にだけ作る。
 - Home チャットで続けて実行する(`--runs-in chat`)と、前の週の提案と答えを踏まえて点検できる。
 - 時刻はホストの時刻で動く。別のタイムゾーンで動かしたいときは `--timezone` を付ける。
-- プロンプトの置き場(`~/Developer/Skills`・`~/Developer/claude-mods`・`<your-bots-repo>`・`<bot のフォルダ>`)は、SOUL.md の「集める先」と同じものに置き換える。bot の写しを使わないなら、「bot の写しの PR」の節と、見る場所の写しの行を消す。
+- プロンプトの置き場(`~/Developer/Skills`・`~/Developer/claude-mods`・`<your-bots-repo>`)は、SOUL.md の「集める先」と同じものに置き換える。`sizes.md` は bot のフォルダに置くので、フォルダの名前は書かなくてよい(bot の定期実行は bot のフォルダで動く)。bot の写しを使わないなら、「bot の写しの PR」の節と、見る場所の写しの行を消す。
 
 ## 作り方
 
-bot のチャットで「次のプロンプトで、毎週月曜 9:00 の定期実行をこのチャットで作って」と頼むと、bot が作る。自分で作るときは次のコマンドを使う。
+bot のチャットで「次のプロンプトで、毎週月曜 9:00 の定期実行をこのチャットで作って」と頼むと、bot が作る。自分で作るときは、下のプロンプトを置き換えてからファイル(例 `weekly-review.txt`)に保存し、次のコマンドを使う。
 
 ```sh
 orca automations create --bot "skills・mods・bot整理" --name "skill・メモリー・mod・bot 週次点検" \
@@ -49,17 +49,17 @@ orca automations create --bot "skills・mods・bot整理" --name "skill・メモ
 - 壊れたリンク・同名の別実体・README の管理表との食い違い・SKILL.md への原則の書き写し・古いパスや決定と矛盾する記述・長く止まっている skill や PR
 - 書き方の原則を正本と要約に分けて持っているなら、その反映漏れ
 - 減らす整理:内容が足され続けて膨らむので、毎回、重複している記述・同じことを別の言い方で書いた原則・1 つの上位の原則にまとめられる個別の原則・使われていない手順や skill を探し、統合・抽象化・削除で文書を減らす案を出す。提案のうち少なくとも 1 件は減らす案にする。足す提案には、代わりに減らせる記述を添える
-- 規模の推移:skill ごとの SKILL.md と references の行数・文字数、書き方の原則の件数と正本の文字数を測り、~/.orca/bots/<bot のフォルダ>/sizes.md に日付つきで 1 行ずつ足す。前回から増えたものを現状に書く
+- 規模の推移:skill ごとの SKILL.md と references の行数・文字数、書き方の原則の件数と正本の文字数を測り、この bot のフォルダの sizes.md に日付つきで 1 行ずつ足す。前回から増えたものを現状に書く
 - 公開の置き場(skill と mod の正本)に案件名・人名・案件固有の語が入っていないか。共通に移す提案では、それらを外して一般化する
 - 前回の点検 item で見送られた提案は、状況が変わらない限り出し直さない。採用済みで未反映のものは進み具合を書く
 
 bot の写しの PR:
-- 点検の最初に、その週の点検 item(下の「出力」の item)を作っておき、写しのリポジトリの worker(orca orchestration worker-start --item <その item> --worktree new-child --repo name:<your-bots-repo> --agent claude)を 1 つ始める。自分では写しのリポジトリのファイルを書かない。
+- 点検の最初に、その週の点検 item(下の「出力」の item)を作っておき、写しのリポジトリの worker(orca orchestration worker-start --item <その item> --worktree new-child --repo name:<your-bots-repo> --agent claude --spec-file <下の「worker に頼むこと」を書いた md>)を 1 つ始める。自分では写しのリポジトリのファイルを書かない。
 - worker に頼むこと:main を pull → 写しのリポジトリの書き出しの手順(スクリプトなど)で手元の bot を書き出す → 差分が無ければ何も push せず「差分なし」と報告。差分があれば秘密(トークン・鍵・パスワード・API キー)を走査し、ブランチ bot-sync で commit・push して PR「bot の写しの更新」を作る。同じブランチの PR が開いていれば新しく作らずそこへ push して更新する。秘密が見つかったら写さず場所だけ報告する。マージはしない。
 - worker の結果は点検 item に載せ、PR があればリンクを現状に書く。
 
 出力:
 - 詳しい点検結果(現状、メモリーの A・B・C の振り分け表、提案)を md にまとめ、`orca bot item add` で「skills・メモリー点検 YYYY-MM-DD」を 1 件作り、その md をコメントに付ける。--status needs-you で提案ごとに --ask と --option(採用 / 見送り / 修正して採用)を付ける。提案は重要な順に最大 5 件で、残りは「そのほか」に畳む。
 - 最後のメッセージはこのチャット向けに、現状 3 行と提案の一覧(各 1 行)、bot の写しの PR があればそのリンクだけ書く。問題も提案もなければ NO_REPLY。
-オーナーが採用した提案は、skill の正本のリポジトリ(またはメモリーやプロジェクトの側)を直す worker(orca orchestration worker-start --item <n> --worktree new-child --repo <対象> --agent claude)に渡して PR を作らせる。メモリーの削除・移動は、移した先が PR でマージされてから行う。
+オーナーが採用した提案は、skill の正本のリポジトリ(またはメモリーやプロジェクトの側)を直す worker(orca orchestration worker-start --item <n> --worktree new-child --repo <対象> --agent claude --spec-file <採用した提案と直す範囲を書いた md>)に渡して PR を作らせる。メモリーの削除・移動は、移した先が PR でマージされてから行う。
 ```

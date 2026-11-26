@@ -15,14 +15,23 @@ AI のエージェントで複数のプロジェクトを回していると、�
 
 ## Orca の bot とは
 
-[Orca](https://orca.dev)([GitHub](https://github.com/stablyai/orca))は、複数の AI のエージェントを worktree ごとに動かす開発環境です。bot は Orca の中に住む常駐のエージェントで、役割を書いた `SOUL.md` と自分のメモリーを持ち、チャットでの依頼と定期実行(automation)で仕事をします。
+[Orca](https://orca.dev)([GitHub](https://github.com/stablyai/orca))は、複数の AI のエージェントを worktree ごとに動かす開発環境です。bot は Orca の中で動き続けるエージェントで、役割を書いた `SOUL.md` と自分のメモリーを持ち、チャットでの依頼と定期実行(automation)で仕事をします。
+
+このリポジトリの説明で使う Orca の言葉は次のとおりです。
+
+| 言葉 | 中身 |
+|---|---|
+| Home チャット | bot ごとの、いつも開いているチャット。定期実行の結果もここに届く |
+| item | bot がオーナーのために追う成果物や判断を 1 件ずつ記録したもの。選択式の質問を付けられる |
+| Needs you | オーナーの答えを待っている item の状態 |
+| worker | bot が作業を任せるために別の worktree で始めるエージェント。終わると結果を bot に返す |
 
 ## 使い方
 
 1. `bots/` から使いたい bot を選び、その `README.md` の前提(要るリポジトリ・skill・接続)をそろえます。
-2. Orca で新しい bot を作ります。bot のフォルダは `~/.orca/bots/` の下にできます(`orca bot list` で場所を確かめられます)。
+2. Orca で新しい bot を作ります。bot のフォルダは `~/.orca/bots/` の下にできます。フォルダの名前は bot の名前と同じとは限らないので、`grep -l '"name": "<bot の名前>"' ~/.orca/bots/*/bot.json` で探します。
 3. `SOUL.md` のパス(`~/Developer/<your-repo>` のような書き方のところ)を自分の環境に直し、bot のフォルダの `SOUL.md` を置き換えます。bot のチャットに貼って「SOUL.md をこの内容にして」と頼んでもかまいません。
-4. `automations.md` の定期実行を足します。bot のチャットでプロンプトを渡して作ってもらうか、`orca automations create --bot <bot の名前>` で作ります。初回は `orca automations run` で 1 回動かし、結果を確かめてから定期に任せます。
+4. `automations.md` の定期実行を足します。bot のチャットでプロンプトを渡して作ってもらうか、プロンプトをファイルに保存して `orca automations create --bot <bot の名前>` で作ります。初回は `orca automations list` で id を調べて `orca automations run <id>` で 1 回動かし、結果を確かめてから定期に任せます。
 
 SOUL.md は出発点です。使いながら、bot に「SOUL.md のここをこう直して」と頼んで自分の仕事に合わせていきます。
 
