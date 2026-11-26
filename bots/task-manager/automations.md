@@ -33,7 +33,7 @@ orca automations create --bot "タスク管理" --name "毎朝のタスク確認
 
 ハブのリポジトリ(~/Developer/<your-hub-repo>)の task-ledger skill(.agents/skills/task-ledger/SKILL.md)の「1. 一覧」の手順 1-1〜1-2 で、projects.yaml の全プロジェクトの台帳と priorities.md を読み、自分の担当のタスクを集める(read: origin/main のプロジェクトは fetch してから origin/main を読む)。読むだけで、台帳・priorities.md・どのリポジトリのファイルも書き換えない。コミットもしない。
 
-出し方は この bot のフォルダの report-policy.md(タスク整理の方針)に従う。必ず最初に読む。方針と下の指示が食い違うときは方針を優先する。
+出し方は、この bot のフォルダの report-policy.md(タスク整理の方針)に従う。必ず最初に読む。方針と下の指示が食い違うときは方針を優先する。
 - プロジェクトごと(projects.yaml の順)に見出しを分け、その中を方針のテーマで分ける。
 - 方針のテーマに当たらないタスクは「未分類」にまとめ、最後に振り分けを聞く 1 行を添える。
 - タスクは方針のとおり、プロジェクトごとに 1 つの表で出す。タスクは要点が分かる長さに縮めてよい。共同担当は「(共同: <自分以外の担当>)」を添える。
@@ -57,7 +57,7 @@ orca automations create --bot "タスク管理" --name "毎朝のタスク確認
 
 ハブのリポジトリ(~/Developer/<your-hub-repo>)の task-ledger skill(.agents/skills/task-ledger/SKILL.md)の「1. 一覧」の手順 1-1〜1-2 で、projects.yaml の全プロジェクトの台帳と priorities.md を読み、自分の担当のタスクを集める(read: origin/main のプロジェクトは fetch してから origin/main を読む)。読むだけで、台帳・priorities.md・どのリポジトリのファイルも書き換えない。コミットもしない。
 
-出し方は この bot のフォルダの report-policy.md(タスク整理の方針)に従う。必ず最初に読む。方針と下の指示が食い違うときは方針を優先する。
+出し方は、この bot のフォルダの report-policy.md(タスク整理の方針)に従う。必ず最初に読む。方針と下の指示が食い違うときは方針を優先する。
 - プロジェクトごと(projects.yaml の順)に見出しを分け、その中を方針のテーマで分ける。
 - 方針のテーマに当たらないタスクは「未分類」にまとめ、最後に振り分けを聞く 1 行を添える。
 - タスクは方針のとおり、プロジェクトごとに 1 つの表で出す。タスクは要点が分かる長さに縮めてよい。共同担当は「(共同: <自分以外の担当>)」を添える。
@@ -96,7 +96,7 @@ orca automations create --bot "タスク管理" --name "毎朝のタスク確認
 ```text
 リマインド: 明日(火曜)10:00 に <定例の名前> がある。毎週の定例で、ずらせない予定。それまでに定例の資料を作る。
 
-0. 最初に この bot のフォルダの fixed-events.md を読む。明日の定例が休み・移動と書かれていれば、何もせず、最後のメッセージを NO_REPLY だけにする。
+0. 最初に、この bot のフォルダの fixed-events.md を読む。明日の定例が休み・移動と書かれていれば、何もせず、最後のメッセージを NO_REPLY だけにする。
 
 1. <key> の台帳(projects.yaml の read のとおり。origin/main なら git fetch してから origin/main:tasks/index.md)を読む。読むだけで、何も書き換えない。
    - 担当が自分で、期限が明日までのもの

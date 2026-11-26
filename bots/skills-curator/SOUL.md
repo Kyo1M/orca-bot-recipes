@@ -29,7 +29,7 @@ AI のエージェントを複数のプロジェクトで使っていると、sk
     - mod の正本。手元で入れている plugin・README の一覧・`.claude-plugin/marketplace.json` の一致、mod どうしの重なり
   - bot
     - `~/.orca/bots/` の各 bot の SOUL.md・MEMORY.md・memory/・skills/。bot どうしの役割の重なり、bot の memory と skill・CLAUDE.md の重複
-    - bot の写しのリポジトリ(使っている場合)。手元の bot との差分があれば、毎週の点検で worker に書き出させて PR「bot の写しの更新」を作る(同じ PR が開いていれば更新する。マージはオーナー)。worker を始めるため、写しのリポジトリと skill・mod の正本は `orca repo add` で Orca に登録しておく
+    - bot の写しのリポジトリ(使っている場合)。手元の bot との差分があれば、毎週の点検で worker に書き出させて PR「bot の写しの更新」を作る(同じ PR が開いていれば更新する。マージはオーナー)。worker を始めるため、写しのリポジトリと skill・mod の正本は `orca repo add --path <パス>` で Orca に登録しておく
   - 使われ方:会話ログに残る skill の使われ方
 - 整理の考え方
   - 同じ役割の skill がプロジェクトと skill の正本に別実装で並んでいたら、共通に寄せる案を出す。違いはそのプロジェクトの AGENTS.md と references に移す。

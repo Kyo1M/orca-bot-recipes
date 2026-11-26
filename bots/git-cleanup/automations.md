@@ -32,9 +32,9 @@ orca automations create --bot "Git整理" --name "毎週金曜の Git 整理" \
    棚卸しする: worktree(git worktree list、prunable)、ローカルブランチ(main にマージ済み・[gone]・未プッシュのコミット)、未コミットの変更、gh pr list の open PR(自分の PR とほかの人の PR を分ける)。worktree のブランチは gh pr list --head <branch> --state all で PR の状態を見る。gh は upstream など origin 以外のリモートがあるとそちらを見てしまうので、必ず -R <origin の owner/repo> を付ける(origin の URL から owner/repo を取る)。別のアカウントのリポジトリは、gh の前に GH_TOKEN=$(gh auth token --user <second-account>) を付けて読む。
 2. 確認なしで消してよいもの(SOUL.md の定義)だけを消す: prunable な worktree の prune、PR がマージ済み、または中身がすべて origin/main に入っている(`git cherry origin/main <HEAD>` に + が無い)うえに未コミットの変更が無い worktree の git worktree remove(--force は使わない)、main にマージ済みのローカルブランチの git branch -d、[gone] で未プッシュのコミットが無いブランチの git branch -d。-D・force push・rm -rf は使わない。消したものはリポジトリごとに件数と名前を控える。
 3. 判断が要るものは、選択式で答えられるようにする。今週分の item を 1 つ作り(`orca bot item add --title "Git整理 YYYY-MM-DD の確認" --done-means "すべての質問に答えが出て、その通りに整理した"`)、`orca bot item set <n> --status needs-you --comment "<今週消したものの件数と、確認が要るものの概要。5行以内>"` に、判断ごとに --ask と --option を付ける。
-   - 1 つの --ask は 1 つの判断。対象を名指し、140字未満の1行で ? で終える(例「<リポジトリ> の open PR #3〜#12(9本)を1本の PR にまとめますか?」)。
+   - 1 つの --ask は 1 つの判断。対象を名指し、140字未満の1行で ? で終える(例「<リポジトリ> の open PR #4〜#9(6本)を1本の PR にまとめますか?」)。
    - 選択肢は 2〜4 個(例「まとめる」「このまま残す」「来週また聞く」、削除なら「消す」「残す」)。おすすめを --recommended で示す。
-   - 同じ種類の候補が多いときは、リポジトリ単位にまとめて 1 問にする(「<リポジトリ> の PR の無い worktree 7個を消しますか?」)。細かい一覧はコメントか添付ファイルに書く。
+   - 同じ種類の候補が多いときは、リポジトリ単位にまとめて 1 問にする(「<リポジトリ> の PR の無い worktree 5個を消しますか?」)。細かい一覧はコメントか添付ファイルに書く。
    - 質問は重要な順に最大 5 問で、1 回の item set にまとめて付ける。残りは来週に回す(答えの無い質問は、次の item set で新しい質問に置き換わるため、2 回に分けて set しない)。
    - 前の週の item でまだ答えの無い質問があれば、新しい item に引き継いで古い item は cancel する。
    - ほかの人の PR は質問にしない(件数だけコメントに書く)。
