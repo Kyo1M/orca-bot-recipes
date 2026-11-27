@@ -1,0 +1,12 @@
+owner: 山田            # 台帳の「担当」の列に書く自分の名前(置き換える)。この名前が入っている行を対象にする
+projects:
+  - key: webshop       # 自分だけで使う、Web ショップの改修のリポジトリ(架空)
+    repo: ~/Developer/webshop-renewal
+    ledger: tasks/index.md
+    read: worktree     # 手元の作業ツリーの台帳を読む
+    write: ledger      # 棚卸しで台帳に書く
+  - key: research      # チームで使う、調査の受託のリポジトリ(架空)。台帳は PR で直す決まり
+    repo: ~/Developer/research-team
+    ledger: tasks/index.md
+    read: origin/main  # fetch してから origin/main の台帳を読む
+    write: handoff     # 台帳に書かず、そのリポジトリのセッションへの引き継ぎ文を出す
